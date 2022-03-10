@@ -40,8 +40,8 @@ class Home extends Component {
           data-testid="query-input"
           type="text"
           name="search"
-          value={ search }
-          onChange={ this.inputChange }
+          // value={ search }
+          // onChange={ this.inputChange }
         />
         <Link
           to="/cart"

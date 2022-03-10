@@ -1,38 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Card from '../components/Card';
 import CategoriesList from '../components/CategoriesList';
-// import {  } from '../services/api';
+import { getProductsFromCategoryAndQuery } from '../services/api';
 
 class Home extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
+      categorieId: '',
       contentProduct: [],
-      loading: false,
+      // loading: false,
     };
   }
 
-  // inputChange = ({ target }) => {
-  //   const { name } = target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
+  inputChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  }
 
-  // buttonSearch = async () => {
-  //   this.setState({
-  //     loading: true,
-  //   }, async () => {
-  //     const categories = await ;
-  //     this.setState({
-  //       // conteudo da pesquisa
-  //       loading: false,
-  //     });
-  //   });
-  // }
+  buttonSearch = async () => {
+    const { search, categorieId } = this.state;
+    // this.setState({ loading: true });
+    const products = await getProductsFromCategoryAndQuery(categorieId, search);
+
+    this.setState({ contentProduct: products.results });
+    // console.log(products.results);
+  }
 
   render() {
+    const { search, contentProduct } = this.state;
+
     return (
       <>
         <div>Home</div>
@@ -40,8 +41,8 @@ class Home extends Component {
           data-testid="query-input"
           type="text"
           name="search"
-          // value={ search }
-          // onChange={ this.inputChange }
+          value={ search }
+          onChange={ this.inputChange }
         />
         <Link
           to="/cart"
@@ -68,6 +69,15 @@ class Home extends Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </span>
         <CategoriesList idCat="category" />
+        {
+          contentProduct.map(({ id, title, price, thumbnail }) => (
+            <Card
+              key={ id }
+              image={ thumbnail }
+              name={ title }
+              price={ price }
+            />))
+        }
       </>
     );
   }

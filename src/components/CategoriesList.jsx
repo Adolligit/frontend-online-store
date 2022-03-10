@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 class CategoriesList extends Component {
@@ -41,4 +42,5 @@ class CategoriesList extends Component {
 CategoriesList.propTypes = {
   idCat: PropTypes.string.isRequired,
 };
+
 export default CategoriesList;

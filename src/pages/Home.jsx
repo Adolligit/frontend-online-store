@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import CategoriesList from '../components/CategoriesList';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import * as api from '../services/api'
 
 class Home extends Component {
   constructor() {
@@ -17,18 +17,24 @@ class Home extends Component {
 
   inputChange = ({ target }) => {
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
+
+    this.setState({ [name]: value });
   }
 
   buttonSearch = async () => {
     const { search, categorieId } = this.state;
     // this.setState({ loading: true });
-    const products = await getProductsFromCategoryAndQuery(categorieId, search);
+    const products = await api.getProductsFromCategoryAndQuery(categorieId, search);
 
     this.setState({ contentProduct: products.results });
     // console.log(products.results);
+  }
+
+  searchProduct = async (categorieId) => {
+    const { search } = this.state;
+    const result = await api.getProductsFromCategoryAndQuery(categorieId, search);
+
+    this.setState({ contentProduct: result });
   }
 
   render() {
@@ -68,7 +74,7 @@ class Home extends Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </span>
-        <CategoriesList />
+        <CategoriesList searchProduct={ this.searchProduct } />
         {
           contentProduct.map(({ id, title, price, thumbnail }) => (
             <Card
@@ -76,7 +82,8 @@ class Home extends Component {
               image={ thumbnail }
               name={ title }
               price={ price }
-            />))
+            />
+          ))
         }
       </>
     );

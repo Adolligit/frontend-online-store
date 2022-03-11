@@ -24,6 +24,7 @@ class Home extends Component {
     // this.setState({ loading: true });
     const { search } = this.state;
     const { results } = await api.getProductsFromCategoryAndQuery(categorieId, search);
+    // console.log('Results', results);
 
     this.setState({ contentProduct: results });
   }
@@ -68,12 +69,18 @@ class Home extends Component {
         <CategoriesList searchProduct={ this.searchProduct } />
         {
           contentProduct.map(({ id, title, price, thumbnail }) => (
-            <Card
+            <Link
+              data-testid="product-detail-link"
               key={ id }
-              image={ thumbnail }
-              name={ title }
-              price={ price }
-            />
+              to={ `/product-details/${id}` }
+            >
+              <Card
+                key={ id }
+                image={ thumbnail }
+                name={ title }
+                price={ price }
+              />
+            </Link>
           ))
         }
       </>

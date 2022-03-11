@@ -27,6 +27,12 @@ class Home extends Component {
 
     this.setState({ contentProduct: results });
   }
+ // requisito 8
+ handleClick = (e) => {
+   const {itens} = this.props
+   const {nameProduct} = this.state
+ }
+ 
 
   render() {
     const { search, contentProduct } = this.state;

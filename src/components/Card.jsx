@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+    }
+  }
+
+  addCart = () => {
+    const { name, image, price } = this.props;
+//    const savedItems = JSON.parse(localStorage.getItem('list'));
+    localStorage.setItem("list", JSON.stringify(`[{${name},${image},${price}}]`));
+  }
+
+
   render() {
     const { image, name, price } = this.props;
 
@@ -10,6 +24,13 @@ class Card extends Component {
         <h3>{ name }</h3>
         <img src={ image } alt={ name } />
         <span>{ price }</span>
+        <button
+        onClick={this.addCart}
+        type="button"
+        name="btnAddCart"
+        >
+        Adicionar ao Carrinho
+        </button>
       </div>
     );
   }

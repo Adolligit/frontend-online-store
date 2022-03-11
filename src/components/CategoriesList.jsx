@@ -16,30 +16,40 @@ class CategoriesList extends Component {
 
   getList = async () => {
     const list = await getCategories();
-    this.setState({
-      listCategories: list,
-    });
+
+    this.setState({ listCategories: list });
+  }
+
+  clickOnCategory = async (categorieId) => {
+    const { searchProduct } = this.props;
+
+    searchProduct(categorieId);
   }
 
   render() {
     const { listCategories } = this.state;
-    const { idCat } = this.props;
+
     return (
       <header>
-        {listCategories.map(({ id, name }) => (
-          <button
-            key={ id }
-            data-testid={ idCat }
-            type="button"
-          >
-            { name }
-          </button>))}
+        {
+          listCategories.map(({ id, name }) => (
+            <button
+              key={ id }
+              data-testid="category"
+              type="button"
+              onClick={ () => this.clickOnCategory(id) }
+            >
+              { name }
+            </button>
+          ))
+        }
       </header>
     );
   }
 }
 
 CategoriesList.propTypes = {
-  idCat: PropTypes.string.isRequired,
-};
+  searchProduct: PropTypes.func,
+}.isRequired;
+
 export default CategoriesList;

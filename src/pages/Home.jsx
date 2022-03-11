@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import CategoriesList from '../components/CategoriesList';
-import * as api from '../services/api'
+import * as api from '../services/api';
 
 class Home extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
-      categorieId: '',
       contentProduct: [],
       // loading: false,
     };
@@ -21,20 +20,12 @@ class Home extends Component {
     this.setState({ [name]: value });
   }
 
-  buttonSearch = async () => {
-    const { search, categorieId } = this.state;
-    // this.setState({ loading: true });
-    const products = await api.getProductsFromCategoryAndQuery(categorieId, search);
-
-    this.setState({ contentProduct: products.results });
-    // console.log(products.results);
-  }
-
   searchProduct = async (categorieId) => {
+    // this.setState({ loading: true });
     const { search } = this.state;
-    const result = await api.getProductsFromCategoryAndQuery(categorieId, search);
+    const { results } = await api.getProductsFromCategoryAndQuery(categorieId, search);
 
-    this.setState({ contentProduct: result });
+    this.setState({ contentProduct: results });
   }
 
   render() {
@@ -65,7 +56,7 @@ class Home extends Component {
           data-testid="query-button"
           type="button"
           name="btn"
-          onClick={ this.buttonSearch }
+          onClick={ this.searchProduct }
         >
           Pesquisar
         </button>

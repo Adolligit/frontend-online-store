@@ -68,7 +68,7 @@ class Home extends Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </span>
-        <CategoriesList idCat="category" />
+        <CategoriesList />
         {
           contentProduct.map(({ id, title, price, thumbnail }) => (
             <Card

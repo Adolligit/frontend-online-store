@@ -14,6 +14,10 @@ class Home extends Component {
     };
   }
 
+  componentDidMount() {
+    if (!localStorage.savedProducts) localStorage.savedProducts = JSON.stringify([]);
+  }
+
   inputChange = ({ target }) => {
     const { name, value } = target;
 

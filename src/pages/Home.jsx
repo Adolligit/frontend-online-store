@@ -27,12 +27,6 @@ class Home extends Component {
 
     this.setState({ contentProduct: results });
   }
- // requisito 8
- handleClick = (e) => {
-   const {itens} = this.props
-   const {nameProduct} = this.state
- }
- 
 
   render() {
     const { search, contentProduct } = this.state;
@@ -73,12 +67,10 @@ class Home extends Component {
         </span>
         <CategoriesList searchProduct={ this.searchProduct } />
         {
-          contentProduct.map(({ id, title, price, thumbnail }) => (
+          contentProduct.map((product) => (
             <Card
-              key={ id }
-              image={ thumbnail }
-              name={ title }
-              price={ price }
+              key={ product.id }
+              product={ product }
             />
           ))
         }

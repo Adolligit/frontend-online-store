@@ -6,24 +6,39 @@ class Cart extends Component {
     super();
     this.state = {
       cartItems: [],
-    }
+    };
   }
-  componentDidMount(){
-    const savedItems = JSON.parse(localStorage.getItem('list'));
-    this.setState ((prevState) => ({
-      cartItems: [...prevState.cartItems, prevState.cartItems + savedItems],
-    }));
+
+  componentDidMount() {
+    this.getSavedProducts();
   }
-  
+
+  getSavedProducts = () => {
+    this.setState({
+      cartItems: JSON.parse(localStorage.savedProducts),
+    });
+  }
+
+  createProduct = (product) => {
+    const { title } = product;
+    return (
+      <fieldset key={ title } data-testid="shopping-cart-product-name">
+        <span>{ title }</span>
+        <span data-testid="shopping-cart-product-quantity">1</span>
+      </fieldset>
+    );
+  };
+
   render() {
     const { cartItems } = this.state;
-    return ( 
+    return (
       <>
-      {cartItems.map(({name})=> name)}
-     
-      <span data-testid="shopping-cart-empty-message">
-        Seu carrinho está vazio
-      </span>
+        {
+          cartItems.map((product) => this.createProduct(product))
+        }
+        <span data-testid="shopping-cart-empty-message">
+          Seu carrinho está vazio
+        </span>
       </>
     );
   }

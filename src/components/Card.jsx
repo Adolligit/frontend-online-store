@@ -2,34 +2,33 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
-  constructor() {
-    super();
-    this.state = {
-      list: [],
-    }
-  }
-
   addCart = () => {
-    const { name, image, price } = this.props;
-//    const savedItems = JSON.parse(localStorage.getItem('list'));
-    localStorage.setItem("list", JSON.stringify(`[{${name},${image},${price}}]`));
-  }
+    const { product } = this.props;
+    const savedProducts = JSON.parse(localStorage.savedProducts);
+    const contains = savedProducts.some(({ id }) => id === product.id);
 
+    localStorage.savedProducts = JSON.stringify(
+      (contains)
+        ? [...savedProducts]
+        : [...savedProducts, product],
+    );
+  }
 
   render() {
-    const { image, name, price } = this.props;
+    const { product: { thumbnail, name, price } } = this.props;
 
     return (
       <div data-testid="product">
         <h3>{ name }</h3>
-        <img src={ image } alt={ name } />
+        <img src={ thumbnail } alt={ name } />
         <span>{ price }</span>
         <button
-        onClick={this.addCart}
-        type="button"
-        name="btnAddCart"
+          onClick={ this.addCart }
+          type="button"
+          name="btnAddCart"
+          data-testid="product-add-to-cart"
         >
-        Adicionar ao Carrinho
+          Adicionar ao Carrinho
         </button>
       </div>
     );
@@ -37,9 +36,11 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-};
+  product: PropTypes.shape({
+    image: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+  }),
+}.isRequired;
 
 export default Card;

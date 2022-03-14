@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as api from '../services/api';
+import AddCartButton from '../components/AddCartButton';
 
 class ProductDetails extends Component {
   constructor() {
@@ -57,6 +58,10 @@ class ProductDetails extends Component {
               {contentProduct.sold_quantity}
             </li>
           </ol>
+          <AddCartButton
+            product={ contentProduct }
+            testId="product-detail-add-to-cart"
+          />
         </section>
       </>
     );

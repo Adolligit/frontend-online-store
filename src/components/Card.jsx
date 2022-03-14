@@ -3,18 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Card extends Component {
-  addCart = () => {
-    const { product } = this.props;
-    const savedProducts = JSON.parse(localStorage.savedProducts);
-    const contains = savedProducts.some(({ id }) => id === product.id);
-
-    localStorage.savedProducts = JSON.stringify(
-      (contains)
-        ? [...savedProducts]
-        : [...savedProducts, product],
-    );
-  }
-
   render() {
     const { product: { id, thumbnail, title, price } } = this.props;
 
@@ -29,14 +17,6 @@ class Card extends Component {
         </Link>
         <img src={ thumbnail } alt={ title } />
         <span>{`R$${price}`}</span>
-        <button
-          onClick={ this.addCart }
-          type="button"
-          name="btnAddCart"
-          data-testid="product-add-to-cart"
-        >
-          Adicionar ao Carrinho
-        </button>
       </div>
     );
   }

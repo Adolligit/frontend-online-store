@@ -27,7 +27,9 @@ class Cart extends Component {
     return (
       <fieldset key={ title } data-testid="shopping-cart-product-name">
         <h3>{ title }</h3>
-        <span data-testid="shopping-cart-product-quantity">{`Quantidade: ${quantity}`}</span>
+        <span data-testid="shopping-cart-product-quantity">
+          {`Quantidade: ${quantity}`}
+        </span>
       </fieldset>
     );
   };

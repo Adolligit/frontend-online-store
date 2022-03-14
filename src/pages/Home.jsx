@@ -74,16 +74,17 @@ class Home extends Component {
         <CategoriesList searchProduct={ this.searchProduct } />
         {
           contentProduct.map((product) => (
-            <>
+            <React.Fragment
+              key={ product.id }
+            >
               <Card
-                key={ product.id }
                 product={ product }
               />
               <AddCartButton
                 product={ product }
                 testId="product-add-to-cart"
               />
-            </>
+            </React.Fragment>
           ))
         }
       </>

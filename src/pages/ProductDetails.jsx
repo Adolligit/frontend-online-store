@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import * as api from '../services/api';
 import AddCartButton from '../components/AddCartButton';
 
@@ -34,6 +35,17 @@ class ProductDetails extends Component {
     const { title, thumbnail, price, condition, warranty } = contentProduct;
     return (
       <>
+        <Link
+          to="/cart"
+          className="btn btn-primary"
+          data-testid="shopping-cart-button"
+        >
+          <button
+            type="button"
+          >
+            Carrinho de compras
+          </button>
+        </Link>
         <h1 data-testid="product-detail-name">
           { title }
           {' '}
@@ -71,7 +83,7 @@ class ProductDetails extends Component {
 ProductDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

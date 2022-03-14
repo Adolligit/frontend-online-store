@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AddCartButton from '../components/AddCartButton';
 import Card from '../components/Card';
 import CategoriesList from '../components/CategoriesList';
 import * as api from '../services/api';
@@ -73,10 +74,17 @@ class Home extends Component {
         <CategoriesList searchProduct={ this.searchProduct } />
         {
           contentProduct.map((product) => (
-            <Card
+            <React.Fragment
               key={ product.id }
-              product={ product }
-            />
+            >
+              <Card
+                product={ product }
+              />
+              <AddCartButton
+                product={ product }
+                testId="product-add-to-cart"
+              />
+            </React.Fragment>
           ))
         }
       </>

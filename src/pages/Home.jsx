@@ -28,6 +28,7 @@ class Home extends Component {
     // this.setState({ loading: true });
     const { search } = this.state;
     const { results } = await api.getProductsFromCategoryAndQuery(categorieId, search);
+    // console.log('Results', results);
 
     this.setState({ contentProduct: results });
   }

@@ -14,6 +14,10 @@ class Home extends Component {
     };
   }
 
+  componentDidMount() {
+    if (!localStorage.savedProducts) localStorage.savedProducts = JSON.stringify([]);
+  }
+
   inputChange = ({ target }) => {
     const { name, value } = target;
 
@@ -68,19 +72,11 @@ class Home extends Component {
         </span>
         <CategoriesList searchProduct={ this.searchProduct } />
         {
-          contentProduct.map(({ id, title, price, thumbnail }) => (
-            <Link
-              data-testid="product-detail-link"
-              key={ id }
-              to={ `/product-details/${id}` }
-            >
-              <Card
-                key={ id }
-                image={ thumbnail }
-                name={ title }
-                price={ price }
-              />
-            </Link>
+          contentProduct.map((product) => (
+            <Card
+              key={ product.id }
+              product={ product }
+            />
           ))
         }
       </>

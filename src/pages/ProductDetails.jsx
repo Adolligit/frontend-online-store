@@ -10,6 +10,11 @@ class ProductDetails extends Component {
 
     this.state = {
       contentProduct: [],
+      emailComment: '',
+      comments: '',
+      rating: '',
+      evaluations: [],
+      // arr: ['1', '2', '3', '4', '5'],
       // loading: false,
     };
   }
@@ -17,8 +22,60 @@ class ProductDetails extends Component {
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.searchProductById(id);
-    // console.log(this.state.contentProduct);
+    const recover = JSON.parse(localStorage.getItem('evaluations'));
+    const recover2 = JSON.parse(localStorage.getItem('email'));
+    const recover3 = JSON.parse(localStorage.getItem('rating'));
+    const recover4 = JSON.parse(localStorage.getItem('comment'));
+    if (recover !== null) {
+      this.setState({
+        evaluations: recover,
+      });
+    }
+    this.setState({
+      emailComment: recover2,
+      comments: recover4,
+      rating: recover3,
+    });
   }
+
+  componentDidUpdate() {
+    const { evaluations, emailComment, comments, rating } = this.state;
+    if (evaluations.length !== 0) {
+      localStorage.setItem('evaluations', JSON.stringify(evaluations));
+    }
+    localStorage.setItem('email', JSON.stringify(emailComment));
+    localStorage.setItem('comment', JSON.stringify(comments));
+    localStorage.setItem('rating', JSON.stringify(rating));
+  }
+
+  handleForm = ({ target }) => {
+    this.setState({ [target.name]: target.value });
+  }
+
+  handleClick = (event) => {
+    event.preventDefault();
+    const { emailComment, comments, rating } = this.state;
+    const { match: { params: { id } } } = this.props;
+    const evaluation = {
+      id,
+      emailComment,
+      comments,
+      rating,
+    };
+    this.setState((prevState) => ({
+      evaluations: [...prevState.evaluations, evaluation],
+      emailComment: '',
+      comments: '',
+      rating: '',
+    }));
+  }
+
+  /* validation = ({ target }) => {
+    const { rating } = this.state;
+    if (rating !== '' && target.value === rating) {
+      return true;
+    }
+  } */
 
   searchProductById = async (productId) => {
     // this.setState({ loading: true });
@@ -31,8 +88,9 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const { contentProduct } = this.state;
+    const { contentProduct, emailComment, comments, evaluations, rating } = this.state;
     const { title, thumbnail, price, condition, warranty } = contentProduct;
+    const { match: { params: { id } } } = this.props;
     return (
       <>
         <Link
@@ -74,6 +132,113 @@ class ProductDetails extends Component {
             product={ contentProduct }
             testId="product-detail-add-to-cart"
           />
+        </section>
+        <section>
+          <form>
+            <label htmlFor="commentEmail">
+              Email:
+              <input
+                data-testid="product-detail-email"
+                name="emailComment"
+                value={ emailComment }
+                id="commentEmail"
+                onChange={ this.handleForm }
+              />
+            </label>
+            <label htmlFor="rating">
+              Avaliação:
+              {/* {
+                arr.map((element, index) => (element === rating ? (<input
+                  key={ index }
+                  type="radio"
+                  value={ element }
+                  name="rating"
+                  data-testid={ `${index + 1}-rating` }
+                  onChange={ this.handleForm }
+                  checked
+                />
+                )
+                  : (
+                    <input
+                      key={ index }
+                      type="radio"
+                      value={ element }
+                      name="rating"
+                      data-testid={ `${index + 1}-rating` }
+                      onChange={ this.handleForm }
+                    />
+                  )
+                ))
+              } */}
+              <input
+                type="radio"
+                name="rating"
+                value="1"
+                data-testid="1-rating"
+                onChange={ this.handleForm }
+                checked={ rating === '1' }
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="2"
+                data-testid="2-rating"
+                onChange={ this.handleForm }
+                checked={ rating === '2' }
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="3"
+                data-testid="3-rating"
+                onChange={ this.handleForm }
+                checked={ rating === '3' }
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="4"
+                data-testid="4-rating"
+                onChange={ this.handleForm }
+                checked={ rating === '4' }
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="5"
+                data-testid="5-rating"
+                onChange={ this.handleForm }
+                checked={ rating === '5' }
+              />
+            </label>
+            <label htmlFor="commentArea">
+              <textarea
+                data-testid="product-detail-evaluation"
+                name="comments"
+                value={ comments }
+                onChange={ this.handleForm }
+              />
+            </label>
+            <button
+              type="submit"
+              data-testid="submit-review-btn"
+              onClick={ this.handleClick }
+            >
+              Avaliar
+            </button>
+          </form>
+        </section>
+        <section>
+          {
+            evaluations.filter((evale) => evale.id === id)
+              .map((evaluation, index) => (
+                <div key={ index }>
+                  <p>{evaluation.emailComment}</p>
+                  <p>{evaluation.comments}</p>
+                  <p>{evaluation.rating}</p>
+                </div>
+              ))
+          }
         </section>
       </>
     );

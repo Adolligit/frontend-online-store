@@ -64,13 +64,17 @@ class Cart extends Component {
     console.log('Quantity', quantity);
     const { price } = this.props;
     console.log('Preço', price);
-    this.setState({
-      quantity: quantity + 1,
-    });
-    // const { firstClick, newQuantity } = this.state;
-    this.setState({
+    this.setState((prevState) => ({
+      quantity: prevState.quantity + 1,
       priceState: price * quantity,
-    });
+    }));
+    /* this.setState({
+      quantity: quantity + 1,
+    }); */
+    // const { firstClick, newQuantity } = this.state;
+    /* this.setState({
+      priceState: price * quantity,
+    }); */
 
     // sumPrice(quantity * priceState);
   }
@@ -78,11 +82,17 @@ class Cart extends Component {
   handleDecreaseQuantity() {
     // const { className } = target;
     const { quantity } = this.state;
+    const { price } = this.props;
     // const { price } = this.props;
     if (quantity > 0) {
-      this.setState({
-        quantity: quantity - 1,
-      });
+      this.setState((prevState) => ({
+        quantity: prevState.quantity - 1,
+        priceState: price * quantity,
+      }));
+      /* this.setState({
+        // quantity: quantity - 1,
+        priceState: price * quantity,
+      }); */
     }
 
     // const { firstClick, newQuantity } = this.state;

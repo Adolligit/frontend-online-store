@@ -94,7 +94,7 @@ class ProductDetails extends Component {
     return (
       <>
         <Link
-          to="/cart"
+          to="/product-cart"
           className="btn btn-primary"
           data-testid="shopping-cart-button"
         >

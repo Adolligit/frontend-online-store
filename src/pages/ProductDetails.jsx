@@ -50,7 +50,7 @@ class ProductDetails extends Component {
     this.setState({ [target.name]: target.value });
   }
 
-  handleClick = async (event) => {
+  handleClick = (event) => {
     event.preventDefault();
     const { emailComment, comments, rating } = this.state;
     const { match: { params: { id } } } = this.props;
@@ -62,12 +62,15 @@ class ProductDetails extends Component {
     };
     this.setState((prevState) => ({
       evaluations: [...prevState.evaluations, evaluation],
+      emailComment: '',
+      comments: '',
+      rating: '',
     }));
   }
 
   validation = ({ target }) => {
     const { rating } = this.state;
-    if (target.value === rating) {
+    if (rating !== '' && target.value === rating) {
       return true;
     }
   }
@@ -83,7 +86,7 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const { contentProduct, emailComment, comments, evaluations } = this.state;
+    const { contentProduct, emailComment, comments, evaluations, rating } = this.state;
     const { title, thumbnail, price, condition, warranty } = contentProduct;
     const { match: { params: { id } } } = this.props;
     return (
@@ -156,7 +159,7 @@ class ProductDetails extends Component {
                 value="1"
                 data-testid="1-rating"
                 onChange={ this.handleForm }
-                checked={ this.validation() }
+                checked={ rating === "1" }
               />
               <input
                 type="radio"
@@ -164,7 +167,7 @@ class ProductDetails extends Component {
                 value="2"
                 data-testid="2-rating"
                 onChange={ this.handleForm }
-                checked={ this.validation() }
+                checked={ rating === "2" }
               />
               <input
                 type="radio"
@@ -172,7 +175,7 @@ class ProductDetails extends Component {
                 value="3"
                 data-testid="3-rating"
                 onChange={ this.handleForm }
-                checked={ this.validation() }
+                checked={ rating === "3" }
               />
               <input
                 type="radio"
@@ -180,7 +183,7 @@ class ProductDetails extends Component {
                 value="4"
                 data-testid="4-rating"
                 onChange={ this.handleForm }
-                checked={ this.validation() }
+                checked={ rating === "4" }
               />
               <input
                 type="radio"
@@ -188,7 +191,7 @@ class ProductDetails extends Component {
                 value="5"
                 data-testid="5-rating"
                 onChange={ this.handleForm }
-                checked={ this.validation() }
+                checked={ rating === "5" }
               />
             </label>
             <label htmlFor="commentArea">
@@ -204,7 +207,7 @@ class ProductDetails extends Component {
               data-testid="submit-review-btn"
               onClick={ this.handleClick }
             >
-              Enviar
+              Avaliar
             </button>
           </form>
         </section>

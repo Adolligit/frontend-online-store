@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import * as api from '../services/api';
-import AddCartButton from '../components/AddCartButton';
 
 class Checkout extends Component {
   constructor() {
     super();
 
     this.state = {
-      ufs: [],
+      // ufs: [],
     };
   }
 

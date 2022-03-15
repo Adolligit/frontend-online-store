@@ -68,12 +68,12 @@ class ProductDetails extends Component {
     }));
   }
 
-  validation = ({ target }) => {
+  /* validation = ({ target }) => {
     const { rating } = this.state;
     if (rating !== '' && target.value === rating) {
       return true;
     }
-  }
+  } */
 
   searchProductById = async (productId) => {
     // this.setState({ loading: true });
@@ -159,7 +159,7 @@ class ProductDetails extends Component {
                 value="1"
                 data-testid="1-rating"
                 onChange={ this.handleForm }
-                checked={ rating === "1" }
+                checked={ rating === '1' }
               />
               <input
                 type="radio"
@@ -167,7 +167,7 @@ class ProductDetails extends Component {
                 value="2"
                 data-testid="2-rating"
                 onChange={ this.handleForm }
-                checked={ rating === "2" }
+                checked={ rating === '2' }
               />
               <input
                 type="radio"
@@ -175,7 +175,7 @@ class ProductDetails extends Component {
                 value="3"
                 data-testid="3-rating"
                 onChange={ this.handleForm }
-                checked={ rating === "3" }
+                checked={ rating === '3' }
               />
               <input
                 type="radio"
@@ -183,7 +183,7 @@ class ProductDetails extends Component {
                 value="4"
                 data-testid="4-rating"
                 onChange={ this.handleForm }
-                checked={ rating === "4" }
+                checked={ rating === '4' }
               />
               <input
                 type="radio"
@@ -191,7 +191,7 @@ class ProductDetails extends Component {
                 value="5"
                 data-testid="5-rating"
                 onChange={ this.handleForm }
-                checked={ rating === "5" }
+                checked={ rating === '5' }
               />
             </label>
             <label htmlFor="commentArea">

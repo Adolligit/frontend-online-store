@@ -147,29 +147,6 @@ class ProductDetails extends Component {
             </label>
             <label htmlFor="rating">
               Avaliação:
-              {/* {
-                arr.map((element, index) => (element === rating ? (<input
-                  key={ index }
-                  type="radio"
-                  value={ element }
-                  name="rating"
-                  data-testid={ `${index + 1}-rating` }
-                  onChange={ this.handleForm }
-                  checked
-                />
-                )
-                  : (
-                    <input
-                      key={ index }
-                      type="radio"
-                      value={ element }
-                      name="rating"
-                      data-testid={ `${index + 1}-rating` }
-                      onChange={ this.handleForm }
-                    />
-                  )
-                ))
-              } */}
               <input
                 type="radio"
                 name="rating"

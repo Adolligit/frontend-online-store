@@ -66,9 +66,14 @@ class Cart extends Component {
     const { price, decreaseQuantity } = this.props;
     // const { price } = this.props;
     if (quantity > 0) {
-      this.setState({
-        quantity: quantity - 1,
-      });
+      this.setState((prevState) => ({
+        quantity: prevState.quantity - 1,
+        priceState: price * quantity,
+      }));
+      /* this.setState({
+        // quantity: quantity - 1,
+        priceState: price * quantity,
+      }); */
     }
 
     this.setState((prevState) => ({

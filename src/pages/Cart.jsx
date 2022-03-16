@@ -24,7 +24,6 @@ class Cart extends Component {
     });
 
     this.retrieveQuantity();
-
     // this.getSavedProducts();
   }
 
@@ -99,7 +98,7 @@ class Cart extends Component {
 
   render() {
     const { quantity, priceState } = this.state;
-    const { title, image } = this.props;
+    const { title, image, avaibility } = this.props;
     return (
       <>
         {/* <h1>TEste</h1> */}
@@ -117,6 +116,11 @@ class Cart extends Component {
           </p>
           <img src={ image } alt={ title } />
           <div data-testid="shopping-cart-product-quantity" className="product-quantity">
+            <p>
+              Disponibilidade:
+              {' '}
+              {avaibility}
+            </p>
             <button
               type="button"
               data-testid="product-decrease-quantity"
@@ -129,12 +133,12 @@ class Cart extends Component {
             {/* {`Quantidade: ${quantity}`} */}
             <label htmlFor="input-number">
               {/* <input
-                type="number"
-                min="1"
-                id="input-number"
-                // value=
-                value={ quantity }
-              /> */}
+              type="number"
+              min="1"
+              id="input-number"
+              // value=
+              value={ quantity }
+            /> */}
               <p className="quantity-value">
                 { quantity }
                 {' '}
@@ -146,6 +150,7 @@ class Cart extends Component {
               // name={ index }
               className="product-increase"
               onClick={ this.handleIncreaseQuantity }
+              disabled={ avaibility <= quantity }
             >
               +
             </button>
@@ -164,6 +169,7 @@ Cart.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  avaibility: PropTypes.number.isRequired,
 };
 
 export default Cart;

@@ -76,6 +76,7 @@ class ProductCart extends Component {
     title={ product.title }
     image={ product.thumbnail }
     price={ product.price }
+    avaibility={ product.available_quantity }
     sumPrice={ this.sumPrice }
     sumQuantity={ this.sumQuantity }
     decreaseQuantity={ this.decreaseQuantity }

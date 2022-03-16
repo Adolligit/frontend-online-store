@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import './Cart.css';
 import PropTypes from 'prop-types';
 
@@ -10,74 +9,61 @@ class Cart extends Component {
     this.state = {
       quantity: 1,
       priceState: 0,
+      // quantityState: 0,
     };
 
     this.handleIncreaseQuantity = this.handleIncreaseQuantity.bind(this);
     this.handleDecreaseQuantity = this.handleDecreaseQuantity.bind(this);
   }
 
-  // handleIncreaseQuantity({ target }) {
-  //   const { className } = target;
-  //   // const newArray = [];
-  //   // const { className } = target;
-  //   const { quantity } = this.props;
-  //   const { firstClick, newQuantity } = this.state;
-  //   // console.log('Cart items', cartItems);
-
-  //   if (!firstClick) {
-  //     if (className === 'product-increase') {
-  //       this.setState({
-  //         firstClick: true,
-  //         newQuantity: quantity + 1,
-  //       });
-  //     } else if (quantity >= 1 && className === 'product-decrease') {
-  //       this.setState({
-  //         firstClick: true,
-  //         newQuantity: quantity - 1,
-  //       });
-  //     }
-  //   } else if (className === 'product-increase') {
-  //     this.setState({
-  //       firstClick: true,
-  //       newQuantity: quantity + 1,
-  //     });
-  //   } else if (newQuantity >= 1 && className === 'product-decrease') {
-  //     this.setState({
-  //       firstClick: true,
-  //       newQuantity: quantity - 1,
-  //     });
-  //   }
-  // }
-
   componentDidMount() {
     // const { quantity } = this.state;
     const { price } = this.props;
     this.setState({
-      quantity: 1,
       priceState: price,
     });
+
+    this.retrieveQuantity();
+
+    // this.getSavedProducts();
+  }
+
+  componentDidUpdate() {
+    const { quantity } = this.state;
+    const { id } = this.props;
+
+    localStorage.setItem(`${id}`, JSON.stringify(quantity));
   }
 
   handleIncreaseQuantity() {
     // const { className } = target;
     const { quantity } = this.state;
-    console.log('Quantity', quantity);
-    const { price } = this.props;
+    const { price, sumQuantity } = this.props;
+    console.log('Quantity antes do setState', quantity);
     console.log('Preço', price);
-    this.setState({
-      quantity: quantity + 1,
-    });
-    // const { firstClick, newQuantity } = this.state;
-    this.setState({
-      priceState: price * quantity,
-    });
 
-    // sumPrice(quantity * priceState);
+    this.setState((prevState) => ({
+      quantity: prevState.quantity + 1,
+    }), () => console.log('Quantity depois do setState', quantity));
+
+    this.setState((prevState) => ({
+      priceState: price * prevState.quantity,
+    }));
+
+    sumQuantity();
+
+    // const productAdd = {
+    //   id: '',
+    //   quantity: '',
+    // };
+
+    // this.calculatePrice();
   }
 
   handleDecreaseQuantity() {
-    // const { className } = target;
     const { quantity } = this.state;
+    // const { className } = target;
+    const { price, decreaseQuantity } = this.props;
     // const { price } = this.props;
     if (quantity > 0) {
       this.setState({
@@ -85,7 +71,25 @@ class Cart extends Component {
       });
     }
 
-    // const { firstClick, newQuantity } = this.state;
+    this.setState((prevState) => ({
+      priceState: price * prevState.quantity,
+    }));
+
+    decreaseQuantity();
+  }
+
+  retrieveQuantity = () => {
+    const { id } = this.props;
+
+    if (JSON.parse(localStorage.getItem(id)) === null) {
+      this.setState({
+        quantity: 1,
+      });
+    } else {
+      this.setState({
+        quantity: JSON.parse(localStorage.getItem(id)),
+      });
+    }
   }
 
   render() {
@@ -102,6 +106,7 @@ class Cart extends Component {
           <p>
             R$
             {' '}
+            {/* { firstClick ? newQuantity : priceState } */}
             {priceState}
             {' '}
           </p>
@@ -122,7 +127,7 @@ class Cart extends Component {
                 type="number"
                 min="1"
                 id="input-number"
-                // value={ firstClick ? newQuantity : quantity }
+                // value=
                 value={ quantity }
               /> */}
               <p className="quantity-value">
@@ -148,6 +153,9 @@ class Cart extends Component {
 }
 
 Cart.propTypes = {
+  id: PropTypes.string.isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+  sumQuantity: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,

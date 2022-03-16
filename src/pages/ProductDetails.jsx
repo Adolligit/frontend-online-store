@@ -14,8 +14,8 @@ class ProductDetails extends Component {
       comments: '',
       rating: '',
       evaluations: [],
-      // arr: ['1', '2', '3', '4', '5'],
-      // loading: false,
+      // cartSize: [],
+      quantity: 0,
     };
   }
 
@@ -36,6 +36,8 @@ class ProductDetails extends Component {
       comments: recover4,
       rating: recover3,
     });
+
+    this.getSavedProducts();
   }
 
   componentDidUpdate() {
@@ -46,6 +48,20 @@ class ProductDetails extends Component {
     localStorage.setItem('email', JSON.stringify(emailComment));
     localStorage.setItem('comment', JSON.stringify(comments));
     localStorage.setItem('rating', JSON.stringify(rating));
+  }
+
+  // getSavedProducts = async () => {
+  //   this.setState({
+  //     cartSize: JSON.parse(localStorage.savedProducts),
+  //   });
+  // }
+
+  getSavedProducts = async () => {
+    this.setState({
+      quantity: JSON.parse(localStorage.getItem('totalQuantity')),
+    });
+
+    // console.log(this.state.cartSize);
   }
 
   handleForm = ({ target }) => {
@@ -70,13 +86,6 @@ class ProductDetails extends Component {
     }));
   }
 
-  /* validation = ({ target }) => {
-    const { rating } = this.state;
-    if (rating !== '' && target.value === rating) {
-      return true;
-    }
-  } */
-
   searchProductById = async (productId) => {
     // this.setState({ loading: true });
     const results = await api.getProductsFromId(productId);
@@ -88,13 +97,14 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const { contentProduct, emailComment, comments, evaluations, rating } = this.state;
+    const { contentProduct, emailComment, comments,
+      evaluations, rating, quantity } = this.state;
     const { title, thumbnail, price, condition, warranty } = contentProduct;
     const { match: { params: { id } } } = this.props;
     return (
       <>
         <Link
-          to="/cart"
+          to="/product-cart"
           className="btn btn-primary"
           data-testid="shopping-cart-button"
         >
@@ -104,6 +114,12 @@ class ProductDetails extends Component {
             Carrinho de compras
           </button>
         </Link>
+        <br />
+        <span data-testid="shopping-cart-size">
+          Quantidade de produtos:
+          {' '}
+          { quantity }
+        </span>
         <h1 data-testid="product-detail-name">
           { title }
           {' '}

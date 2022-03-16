@@ -7,43 +7,82 @@ class ProductCart extends Component {
 
     this.state = {
       cartItems: [],
-      // totalPrice: 0,
+      totalQuantity: 0,
     };
   }
 
   componentDidMount() {
     this.getSavedProducts();
-    // this.renderProducts();
+    this.initialElements();
+  }
+
+  componentDidUpdate() {
+    const { totalQuantity } = this.state;
+    localStorage.setItem('totalQuantity', JSON.stringify(totalQuantity));
   }
 
   getSavedProducts = () => {
+    // const { quantityObj } = this.state;
+    // const { cartItems } = this.state;
+
     this.setState({
       cartItems: JSON.parse(localStorage.savedProducts),
     });
   }
 
-  // const { quantity } = this.state;
+  initialElements = () => {
+    // const { cartItems } = this.state;
+    // const { totalQuantity } = this.state;
 
-  renderProducts = (product, index) => (<Cart
-    id={ index }
+    this.setState({
+      totalQuantity: JSON.parse(localStorage.getItem('totalQuantity')),
+    });
+  }
+
+  sumQuantity = () => {
+    // const { totalQuantity } = this.state;
+    // this.setState((prevState) => ({
+    //   totalQuantity: totalQuantity + prevState.cartItems.length,
+    // }));
+
+    this.setState((prevState) => ({
+      totalQuantity: prevState.totalQuantity + 1,
+    }));
+
+    this.getSavedProducts();
+  }
+
+  // getSavedProducts = async () => {
+  //   this.setState({
+  //     quantity: JSON.parse(localStorage.getItem('totalQuantity')),
+  //   });
+  // }
+
+  decreaseQuantity = () => {
+    // const { totalQuantity } = this.state;
+    // this.setState((prevState) => ({
+    //   totalQuantity: totalQuantity + prevState.cartItems.length,
+    // }));
+
+    this.setState((prevState) => ({
+      totalQuantity: prevState.totalQuantity - 1,
+    }));
+  }
+
+  renderProducts = (product) => (<Cart
+    id={ product.id }
     key={ product.title }
     title={ product.title }
     image={ product.thumbnail }
     price={ product.price }
     sumPrice={ this.sumPrice }
+    sumQuantity={ this.sumQuantity }
+    decreaseQuantity={ this.decreaseQuantity }
   />)
-  // this.sumPrice(product);
-
-  // sumPrice = (product) => {
-  //   const { totalPrice } = this.state;
-  //   this.setState({
-  //     totalPrice: product.price,
-  //   });
-  // }
 
   render() {
     // const { productsInCart } = this.props;
-    const { cartItems } = this.state;
+    const { cartItems, totalQuantity } = this.state;
     console.log('Cart Items no render', cartItems);
     return (
       <div>
@@ -54,8 +93,15 @@ class ProductCart extends Component {
               Seu carrinho está vazio
             </span>
           )}
+        <div>
+          Quantidade total de produtos:
+          {' '}
+          { totalQuantity }
+        </div>
+        <br />
         <span>Valor total da compra: </span>
         <br />
+
         <button type="submit">Finalizar compra</button>
       </div>
     );

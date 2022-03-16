@@ -11,18 +11,44 @@ class Home extends Component {
     this.state = {
       search: '',
       contentProduct: [],
+      cartSize: [],
+      // quantity: 0,
       // loading: false,
     };
   }
 
   componentDidMount() {
     if (!localStorage.savedProducts) localStorage.savedProducts = JSON.stringify([]);
+    this.getSavedProducts();
+  }
+
+  componentDidUpdate() {
+    // this.getSavedProducts();
+    // this.handleUpdateSize();
   }
 
   inputChange = ({ target }) => {
     const { name, value } = target;
 
     this.setState({ [name]: value });
+  }
+
+  // getSavedProducts = async () => {
+  //   this.setState({
+  //     cartSize: JSON.parse(localStorage.savedProducts),
+  //   });
+  // }
+
+  getSavedProducts = async () => {
+    // this.setState({
+    //   quantity: JSON.parse(localStorage.getItem('totalQuantity')),
+    // });
+
+    this.setState({
+      cartSize: JSON.parse(localStorage.savedProducts),
+    });
+
+    // console.log(this.state.cartSize);
   }
 
   searchProduct = async (categorieId) => {
@@ -35,8 +61,8 @@ class Home extends Component {
   }
 
   render() {
-    const { search, contentProduct } = this.state;
-
+    const { search, contentProduct, cartSize } = this.state;
+    // this.getSavedProducts();
     return (
       <>
         <div>Home</div>
@@ -71,6 +97,15 @@ class Home extends Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </span>
+        <br />
+        <span
+          data-testid="shopping-cart-size"
+          className="cart-size-span"
+        >
+          Quantidade de produtos:
+          {' '}
+          { cartSize.length }
+        </span>
         <CategoriesList searchProduct={ this.searchProduct } />
         {
           contentProduct.map((product) => (
@@ -82,7 +117,9 @@ class Home extends Component {
               />
               <AddCartButton
                 product={ product }
+                cartSize={ cartSize }
                 testId="product-add-to-cart"
+                cartSizeUpdate={ this.getSavedProducts }
               />
             </React.Fragment>
           ))

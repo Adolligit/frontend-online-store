@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Card extends Component {
   render() {
-    const { product: { id, thumbnail, title, price } } = this.props;
+    const { product: { id, thumbnail, title, price, shipping } } = this.props;
 
     return (
       <div data-testid="product">
@@ -16,7 +16,10 @@ class Card extends Component {
           <h3>{ title }</h3>
         </Link>
         <img src={ thumbnail } alt={ title } />
-        <span>{`R$${price}`}</span>
+        <p>{`R$${price}`}</p>
+        <p data-testid="free-shipping">
+          {(shipping.free_shipping) ? 'Frete grátis' : ''}
+        </p>
       </div>
     );
   }

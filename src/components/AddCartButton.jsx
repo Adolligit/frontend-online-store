@@ -29,7 +29,9 @@ class AddCartButton extends Component {
         : [...savedProducts, product],
     );
 
-    cartSizeUpdate();
+    if (cartSizeUpdate) {
+      cartSizeUpdate();
+    }
 
     localStorage.setItem(`${product.id}`, JSON.stringify(1));
 

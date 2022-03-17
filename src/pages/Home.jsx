@@ -22,10 +22,10 @@ class Home extends Component {
     this.getSavedProducts();
   }
 
-  componentDidUpdate() {
-    // this.getSavedProducts();
-    // this.handleUpdateSize();
-  }
+  // componentDidUpdate() {
+  //   // this.getSavedProducts();
+  //   // this.handleUpdateSize();
+  // }
 
   inputChange = ({ target }) => {
     const { name, value } = target;
@@ -52,10 +52,8 @@ class Home extends Component {
   }
 
   searchProduct = async (categorieId) => {
-    // this.setState({ loading: true });
     const { search } = this.state;
     const { results } = await api.getProductsFromCategoryAndQuery(categorieId, search);
-    // console.log('Results', results);
 
     this.setState({ contentProduct: results });
   }
@@ -63,6 +61,7 @@ class Home extends Component {
   render() {
     const { search, contentProduct, cartSize } = this.state;
     // this.getSavedProducts();
+    console.log('renderiza');
     return (
       <>
         <div>Home</div>

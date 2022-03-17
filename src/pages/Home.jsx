@@ -60,8 +60,7 @@ class Home extends Component {
 
   render() {
     const { search, contentProduct, cartSize } = this.state;
-    // this.getSavedProducts();
-    console.log('renderiza');
+
     return (
       <>
         <div>Home</div>

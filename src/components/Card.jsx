@@ -17,9 +17,16 @@ class Card extends Component {
         </Link>
         <img src={ thumbnail } alt={ title } />
         <p>{`R$${price}`}</p>
-        <p data-testid="free-shipping">
-          {(shipping.free_shipping) ? 'Frete grátis' : ''}
-        </p>
+        {
+          (shipping.free_shipping)
+            ? (
+              <p data-testid="free-shipping">
+                Frete grátis
+              </p>
+            )
+            : ''
+        }
+
       </div>
     );
   }
